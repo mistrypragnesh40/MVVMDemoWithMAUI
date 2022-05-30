@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MVVMDemoWithMAUI.View.StudentListView"
+             xmlns:viewModels="clr-namespace:MVVMDemoWithMAUI.ViewModel"
+             xmlns:model="clr-namespace:MVVMDemoWithMAUI.Model"
+             x:DataType="viewModels:StudentListViewModel"
+             Title="Student List">
+    <StackLayout Margin="10">
+        <Label Text="Collection View" Style="{StaticResource labelBoldSubTite}" />
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsBusy}" />
+
+        <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" >
+            <CollectionView ItemsSource="{Binding StudentList}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:StudentModel">
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
+                            <Label Text="{Binding Email}" />
+                            <Label Text="{Binding Address}" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModels:StudentListViewModel}},Path=SelectedItemCommand}" CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+       
+    </StackLayout>
+</ContentPage>
